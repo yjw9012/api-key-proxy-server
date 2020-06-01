@@ -1,5 +1,5 @@
 const { createProxyMiddleware } = require('http-proxy-middleware')
-const querystring = require('querystring')
+const qs = require('qs');
 const config = require('./config')
 
 const { allowedDomains: globalAllowedDomains = [], proxies } = config
@@ -24,7 +24,7 @@ module.exports = proxies.map(
       headers,
       auth,
       pathRewrite(path, req) {
-        const qp = querystring.stringify({
+        const qp = qs.stringify({
           ...req.query,
           ...queryparams,
         })

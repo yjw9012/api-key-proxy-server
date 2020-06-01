@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const debug = require('debug')('express:server')
 const proxies = require('./proxies')
+const cors = require('cors');
 
 const app = express()
 
@@ -19,6 +20,9 @@ function errorHandler(error, req, res, next) {
   })
 }
 
+app.use(cors({
+  origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://video-game-backlog.herokuapp.com'
+}))
 proxies.forEach(proxy => app.use(proxy))
 app.use(notFound)
 app.use(errorHandler)
